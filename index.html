@@ -13,6 +13,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
     <title>Fairway Golf | The AI Coach for Your Garmin R10</title>
     <meta name="description" content="Stop wasting range balls. Fairway Golf is an AI-powered coach that analyzes your Garmin R10 swing data and provides personalized drills to help you improve faster.">
     
@@ -395,8 +396,13 @@
             
             <!-- Waitlist Form Container -->
             <div id="form-container">
-                <form id="waitlist-form" action="YOUR_ENDPOINT_URL_HERE" method="POST" class="flex flex-col sm:flex-row max-w-lg mx-auto gap-3">
-                    <input type="email" name="email" id="email-input" placeholder="Enter your email address" class="flex-1 px-6 py-4 rounded-full border-none focus:ring-4 focus:ring-brand-secondary/50 outline-none shadow-lg text-text-primary" required>
+                <form id="waitlist-form" action="https://assets.mailerlite.com/jsonp/2210655/forms/182561018050774672/subscribe" method="POST" class="flex flex-col sm:flex-row max-w-lg mx-auto gap-3">
+                    
+                    <input type="email" name="fields[email]" id="email-input" placeholder="Enter your email address" class="flex-1 px-6 py-4 rounded-full border-none focus:ring-4 focus:ring-brand-secondary/50 outline-none shadow-lg text-text-primary" required>
+                    
+                    <input type="hidden" name="ml-submit" value="1">
+                    <input type="hidden" name="anticsrf" value="true">
+
                     <button type="submit" id="submit-btn" class="px-8 py-4 rounded-full bg-brand-secondary text-white font-semibold hover:bg-white hover:text-brand-primary transition-colors shadow-lg whitespace-nowrap flex items-center justify-center gap-2">
                         <span>Join Waitlist</span>
                     </button>
@@ -426,12 +432,12 @@
             </div>
             
             <div class="flex gap-6 text-sm text-text-secondary dark:text-darkText-secondary">
-                <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Privacy</a>
+                <!-- <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Privacy</a>
                 <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Terms</a>
-                <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Contact</a>
+                <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Contact</a> -->
             </div>
             
-            <p class="text-sm text-text-secondary dark:text-darkText-secondary">&copy; 2026 Fairway Golf. All rights reserved.</p>
+            <p class="text-sm text-text-secondary dark:text-darkText-secondary">&copy; 2026 Fairway Golf AI. All rights reserved.</p>
         </div>
     </footer>
 
@@ -481,55 +487,49 @@
         const form = document.getElementById('waitlist-form');
         const formContainer = document.getElementById('form-container');
         const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
         const submitBtn = document.getElementById('submit-btn');
 
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Stop page from reloading
-
-            const email = document.getElementById('email-input').value;
-            const endpoint = form.getAttribute('action');
-
+            e.preventDefault();
+            
             // Visual feedback of loading
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Joining...';
             lucide.createIcons();
             submitBtn.disabled = true;
+            errorMessage.classList.add('hidden');
+
+            const url = form.getAttribute('action');
+            const formData = new FormData(form);
 
             try {
-                // If you haven't put a real URL in yet, we'll just fake a success state for testing
-                if(endpoint === 'YOUR_ENDPOINT_URL_HERE' || endpoint === '') {
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Fake network delay
-                    throw new Error("No endpoint configured"); 
-                }
-
-                // Send data to your endpoint (Formspree, Mailchimp, etc)
-                const response = await fetch(endpoint, {
+                // Fetch request to MailerLite
+                const response = await fetch(url, {
                     method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
+                    body: formData,
+                    // We use 'no-cors' here because standard MailerLite form submissions 
+                    // from a different domain usually trigger CORS warnings in the browser. 
+                    // 'no-cors' tells the browser "just send the data, I don't need to read the response".
+                    mode: 'no-cors' 
                 });
 
-                if (response.ok) {
-                    showSuccess();
-                } else {
-                    alert("Oops! There was a problem submitting your form.");
-                }
-            } catch (error) {
-                // For demonstration purposes, if no endpoint is configured, we'll still show the success state 
-                // so you can see how the UI looks when testing!
-                console.log("Form submission simulated. Replace YOUR_ENDPOINT_URL_HERE with a real endpoint.");
+                // Because of 'no-cors', the response is "opaque" (we can't see the exact success status), 
+                // but if the fetch didn't throw a network error, it means the data successfully reached MailerLite!
                 showSuccess();
-            } finally {
-                // Reset button just in case
+                
+            } catch (error) {
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
+                errorMessage.innerHTML = "Oops! Network error. Please try again.";
+                errorMessage.classList.remove('hidden');
+                console.error('Form submission error:', error);
             }
         });
 
         function showSuccess() {
             formContainer.classList.add('hidden');
             successMessage.classList.remove('hidden');
-            // Re-initialize icons inside the newly revealed div
             lucide.createIcons(); 
         }
     </script>
