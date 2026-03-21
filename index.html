@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVXYC485H5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YVXYC485H5');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fairway Golf | The AI Coach for Your Garmin R10</title>
+    <meta name="description" content="Stop wasting range balls. Fairway Golf is an AI-powered coach that analyzes your Garmin R10 swing data and provides personalized drills to help you improve faster.">
+    
+    <!-- Google Fonts: Poppins for Display/Headings, Inter for Body/Data -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Changed from 'media' to 'class' so we can toggle it manually!
+            theme: {
+                extend: {
+                    colors: {
+                        // Light Theme (from theme.ts)
+                        bg: {
+                            primary: '#E8EDDF',
+                            card: '#FFFFFF',
+                        },
+                        text: {
+                            primary: '#212121',
+                            secondary: '#757575',
+                        },
+                        brand: {
+                            primary: '#1A3623',
+                            secondary: '#3D8B40',
+                        },
+                        // Dark Theme (from theme.ts)
+                        darkBg: {
+                            primary: '#0D1B13',
+                            card: '#1A2C20',
+                        },
+                        darkText: {
+                            primary: '#E8EDDF',
+                            secondary: '#9EAEB4',
+                        },
+                        darkBrand: {
+                            primary: '#A3D9B1',
+                            secondary: '#59C85C',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'stripe': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'stripe-hover': '0 20px 40px -10px rgba(0,0,0,0.12)',
+                        'stripe-dark': '0 10px 40px -10px rgba(0,0,0,0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom utilities for smooth rendering */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    
+    <!-- Theme Check Script (Prevents flash of wrong theme on reload) -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+
+    
+</head>
+<body class="bg-bg-primary dark:bg-darkBg-primary text-text-primary dark:text-darkText-primary font-sans transition-colors duration-300">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 glass-nav bg-bg-primary/80 dark:bg-darkBg-primary/80 border-b border-black/5 dark:border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-10 h-10 flex items-center justify-center shadow-sm rounded-full bg-white">
+                    <img src="logo.png" alt="Fairway Golf Logo" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1A3623/E8EDDF?text=FG';">
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight text-brand-primary dark:text-darkBrand-primary">
+                    Fairway Golf<span class="text-brand-secondary dark:text-darkBrand-secondary">.ai</span>
+                </span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm font-medium text-text-secondary dark:text-darkText-secondary hover:text-brand-secondary dark:hover:text-darkBrand-secondary transition-colors">Features</a>
+                <a href="#how-it-works" class="text-sm font-medium text-text-secondary dark:text-darkText-secondary hover:text-brand-secondary dark:hover:text-darkBrand-secondary transition-colors">How it Works</a>
+                <!-- Pricing link hidden for now -->
+            </div>
+
+            <div class="flex items-center gap-4 ml-auto md:ml-0">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" type="button" class="text-text-secondary dark:text-darkText-secondary hover:text-brand-primary dark:hover:text-darkBrand-primary transition-colors p-2 rounded-full bg-black/5 dark:bg-white/5">
+                    <i id="theme-toggle-dark-icon" data-lucide="moon" class="hidden w-5 h-5"></i>
+                    <i id="theme-toggle-light-icon" data-lucide="sun" class="hidden w-5 h-5"></i>
+                </button>
+
+                <a href="#waitlist" class="px-5 py-2.5 rounded-full bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary text-sm font-medium hover:bg-brand-secondary dark:hover:bg-darkBrand-secondary transition-all shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+                    Join Waitlist
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Attention) -->
+    <section class="relative pt-40 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-secondary/10 dark:bg-darkBrand-secondary/10 text-brand-secondary dark:text-darkBrand-secondary text-sm font-semibold mb-8 border border-brand-secondary/20">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                <span>Purpose-built for Garmin R10</span>
+            </div>
+
+            <h1 class="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.1] mb-6 tracking-tight text-brand-primary dark:text-white">
+                Practice With Purpose. <br class="hidden md:block" />
+                <span class="bg-gradient-to-r from-brand-secondary to-brand-primary dark:from-darkBrand-secondary dark:to-darkBrand-primary gradient-text">Improve Faster.</span>
+            </h1>
+            
+            <p class="max-w-2xl mx-auto text-lg md:text-xl text-text-secondary dark:text-darkText-secondary leading-relaxed mb-10">
+                Fairway Golf turns your Garmin R10 into your personal AI coach. It analyzes your swing data to find your biggest weakness and gives you a personalized drill to fix it—<span class="font-semibold text-text-primary dark:text-darkText-primary">in every single session.</span>
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#waitlist" class="w-full sm:w-auto px-8 py-4 rounded-full bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary text-base font-semibold hover:bg-brand-primary dark:hover:bg-white transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    Join the Waitlist
+                    <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                </a>
+            </div>
+            
+            <!-- Abstract App UI Mockup (Data visualization for "Data Geeks") -->
+            <div class="mt-20 relative mx-auto max-w-5xl">
+                <!-- Decorative background glow -->
+                <div class="absolute inset-0 bg-brand-secondary/20 dark:bg-darkBrand-secondary/20 blur-[100px] rounded-full z-0"></div>
+                
+                <div class="relative z-10 bg-bg-card dark:bg-darkBg-card rounded-2xl border border-black/5 dark:border-white/5 shadow-stripe dark:shadow-stripe-dark overflow-hidden flex flex-col md:flex-row">
+                    <!-- Data Side -->
+                    <div class="p-8 md:w-1/2 border-b md:border-b-0 md:border-r border-black/5 dark:border-white/5 flex flex-col justify-center">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-display font-semibold">Latest Session: Driver</h3>
+                            <span class="text-xs font-semibold bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-1 rounded">Avg: 245 yds</span>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- Metric Bars -->
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-text-secondary dark:text-darkText-secondary">Club Path</span><span class="font-medium">Out-to-In (4.2°)</span></div>
+                                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2"><div class="bg-red-500 h-2 rounded-full" style="width: 70%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-text-secondary dark:text-darkText-secondary">Face Angle</span><span class="font-medium">Open (2.1°)</span></div>
+                                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2"><div class="bg-orange-500 h-2 rounded-full" style="width: 60%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-text-secondary dark:text-darkText-secondary">Smash Factor</span><span class="font-medium">1.42</span></div>
+                                <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2"><div class="bg-brand-secondary dark:bg-darkBrand-secondary h-2 rounded-full" style="width: 85%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- AI Insight Side -->
+                    <div class="p-8 md:w-1/2 bg-brand-primary/5 dark:bg-darkBrand-primary/10 flex flex-col justify-center">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-brand-secondary dark:text-darkBrand-secondary"></i>
+                            <h3 class="font-display font-semibold text-brand-primary dark:text-darkBrand-primary">AI Coach Insight</h3>
+                        </div>
+                        <p class="text-sm leading-relaxed text-text-secondary dark:text-darkText-secondary mb-6">
+                            "You're currently hitting a pull-slice. Your club path is severely out-to-in, and while the face is slightly open to the target, it's closed to your path. Let's fix your sequencing."
+                        </p>
+                        <div class="bg-white dark:bg-darkBg-card p-4 rounded-xl border border-black/5 dark:border-white/5 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-brand-secondary dark:text-darkBrand-secondary mb-1">Recommended Drill</p>
+                            <p class="font-medium flex items-center justify-between">
+                                The Towel Under Arm Drill
+                                <i data-lucide="play-circle" class="w-5 h-5 text-text-secondary"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Capability Teaser (Interest - Replaced Social Proof) -->
+    <section class="py-10 border-y border-black/5 dark:border-white/5 bg-bg-card dark:bg-darkBg-card relative z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-sm font-semibold text-text-secondary dark:text-darkText-secondary uppercase tracking-widest mb-6">Translating 14+ Garmin R10 metrics into actionable insights</p>
+            <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-80">
+                <div class="flex items-center gap-2 font-medium text-text-primary dark:text-darkText-primary"><i data-lucide="arrow-up-right" class="text-brand-secondary dark:text-darkBrand-secondary w-5 h-5"></i> Club Path</div>
+                <div class="flex items-center gap-2 font-medium text-text-primary dark:text-darkText-primary"><i data-lucide="rotate-cw" class="text-brand-secondary dark:text-darkBrand-secondary w-5 h-5"></i> Face Angle</div>
+                <div class="flex items-center gap-2 font-medium text-text-primary dark:text-darkText-primary"><i data-lucide="navigation" class="text-brand-secondary dark:text-darkBrand-secondary w-5 h-5"></i> Angle of Attack</div>
+                <div class="flex items-center gap-2 font-medium text-text-primary dark:text-darkText-primary"><i data-lucide="zap" class="text-brand-secondary dark:text-darkBrand-secondary w-5 h-5"></i> Smash Factor</div>
+                <div class="flex items-center gap-2 font-medium text-text-primary dark:text-darkText-primary"><i data-lucide="hurricane" class="text-brand-secondary dark:text-darkBrand-secondary w-5 h-5"></i> Spin Axis</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Benefits (Desire) -->
+    <section id="features" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                <h2 class="font-display font-bold text-3xl md:text-5xl text-brand-primary dark:text-white mb-6 tracking-tight">Data is useless without translation.</h2>
+                <p class="text-lg text-text-secondary dark:text-darkText-secondary">Our AI bridges the gap between raw launch monitor numbers and real, physical improvement on the course.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pillar 1 -->
+                <div class="bg-bg-card dark:bg-darkBg-card p-8 rounded-2xl shadow-stripe dark:shadow-stripe-dark border border-black/5 dark:border-white/5 hover:shadow-stripe-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 bg-brand-secondary/10 dark:bg-darkBrand-secondary/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="search" class="w-7 h-7 text-brand-secondary dark:text-darkBrand-secondary"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-4">Finally Understand Your Data</h3>
+                    <p class="text-text-secondary dark:text-darkText-secondary leading-relaxed">
+                        Stop staring at numbers. Our AI translates your R10 data into plain English, showing you the root cause of your slice, hook, or inconsistent strikes.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="bg-bg-card dark:bg-darkBg-card p-8 rounded-2xl shadow-stripe dark:shadow-stripe-dark border border-black/5 dark:border-white/5 hover:shadow-stripe-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 bg-brand-primary/10 dark:bg-darkBrand-primary/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="clipboard-list" class="w-7 h-7 text-brand-primary dark:text-darkBrand-primary"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-4">Practice With a Perfect Plan</h3>
+                    <p class="text-text-secondary dark:text-darkText-secondary leading-relaxed">
+                        No more mindless hitting. Get a new, personalized drill in every session, recommended by our AI to fix your specific flaw and build a more consistent swing.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="bg-bg-card dark:bg-darkBg-card p-8 rounded-2xl shadow-stripe dark:shadow-stripe-dark border border-black/5 dark:border-white/5 hover:shadow-stripe-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 bg-green-500/10 dark:bg-green-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="trending-up" class="w-7 h-7 text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-xl mb-4">Track Real Improvement</h3>
+                    <p class="text-text-secondary dark:text-darkText-secondary leading-relaxed">
+                        Don't just feel like you're getting better—see the proof. Our session summaries show you data-driven evidence of how each drill improved your swing over time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works (Understanding) -->
+    <section id="how-it-works" class="py-24 bg-bg-card dark:bg-darkBg-card overflow-hidden relative border-y border-black/5 dark:border-white/5 shadow-sm">
+        <div class="absolute inset-0 text-brand-primary/10 dark:text-white/10" style="background-image: radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0); background-size: 32px 32px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-display font-bold text-3xl md:text-5xl mb-4 text-brand-primary dark:text-white">The Fairway AI Coach Loop</h2>
+                <p class="text-text-secondary dark:text-white/70 text-lg">A simple process to turn raw data into a better handicap.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-brand-primary/10 dark:bg-white/20 z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="relative z-10 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-lg shadow-brand-secondary/30 ring-8 ring-bg-card dark:ring-darkBg-card">1</div>
+                    <h4 class="font-semibold text-xl mb-2 text-brand-primary dark:text-white">Hit Your Shots</h4>
+                    <p class="text-text-secondary dark:text-white/70 text-sm">Take 15-20 swings with your Garmin R10 connected.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 flex flex-col items-center text-center mt-8 md:mt-0">
+                    <div class="w-16 h-16 rounded-full bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-lg shadow-brand-secondary/30 ring-8 ring-bg-card dark:ring-darkBg-card">2</div>
+                    <h4 class="font-semibold text-xl mb-2 text-brand-primary dark:text-white">Instant AI Analysis</h4>
+                    <p class="text-text-secondary dark:text-white/70 text-sm">In seconds, our AI analyzes your performance and identifies flaws.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 flex flex-col items-center text-center mt-8 md:mt-0">
+                    <div class="w-16 h-16 rounded-full bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-lg shadow-brand-secondary/30 ring-8 ring-bg-card dark:ring-darkBg-card">3</div>
+                    <h4 class="font-semibold text-xl mb-2 text-brand-primary dark:text-white">Receive Custom Drill</h4>
+                    <p class="text-text-secondary dark:text-white/70 text-sm">Get a simple, targeted drill specific to what the data revealed.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative z-10 flex flex-col items-center text-center mt-8 md:mt-0">
+                    <div class="w-16 h-16 rounded-full bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-lg shadow-brand-secondary/30 ring-8 ring-bg-card dark:ring-darkBg-card">4</div>
+                    <h4 class="font-semibold text-xl mb-2 text-brand-primary dark:text-white">Validate Improvement</h4>
+                    <p class="text-text-secondary dark:text-white/70 text-sm">Hit a few more shots to see the data-backed effect of the drill.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing (Action Prep) - HIDDEN FOR NOW -->
+    <section id="pricing" class="py-24 md:py-32 hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 md:mb-20">
+                <h2 class="font-display font-bold text-3xl md:text-5xl text-brand-primary dark:text-white mb-4">Start Improving Today</h2>
+                <p class="text-lg text-text-secondary dark:text-darkText-secondary">Choose the tier that fits your practice routine. Cancel anytime.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
+                
+                <!-- Free Tier -->
+                <div class="bg-bg-card dark:bg-darkBg-card p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+                    <h3 class="font-display font-semibold text-2xl mb-2">Range</h3>
+                    <p class="text-text-secondary dark:text-darkText-secondary text-sm h-10">Perfect for the enthusiastic beginner checking the data.</p>
+                    <div class="my-6">
+                        <span class="text-4xl font-bold">$0</span>
+                        <span class="text-text-secondary dark:text-darkText-secondary">/ forever</span>
+                    </div>
+                    <a href="#" class="block w-full py-3 px-4 bg-gray-100 dark:bg-gray-800 text-center rounded-xl font-semibold text-text-primary dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors mb-8">Get Started Free</a>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary shrink-0"></i> <span>Raw shot data & metrics</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary shrink-0"></i> <span>Basic swing labels (e.g., "Slice")</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary shrink-0"></i> <span class="font-medium text-brand-primary dark:text-darkBrand-primary">Hook: 50 Free "Per-Shot AI Insights"</span></li>
+                    </ul>
+                </div>
+
+                <!-- Pro Tier (Flagship) -->
+                <div class="bg-brand-primary dark:bg-darkBg-card p-8 rounded-3xl border-2 border-brand-secondary dark:border-darkBrand-secondary shadow-2xl relative transform md:-translate-y-4">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full">
+                        Flagship Coach
+                    </div>
+                    <h3 class="font-display font-semibold text-2xl text-white mb-2">Coach</h3>
+                    <p class="text-white/70 text-sm h-10">For players serious about lowering their handicap.</p>
+                    <div class="my-6 text-white">
+                        <span class="text-4xl font-bold">$19.99</span>
+                        <span class="text-white/70">/ month</span>
+                    </div>
+                    <a href="#" class="block w-full py-3 px-4 bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary text-center rounded-xl font-semibold hover:bg-white hover:text-brand-primary transition-all mb-8 shadow-lg">Start 14-Day Free Trial</a>
+                    <ul class="space-y-4 text-sm text-white/90">
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary dark:text-darkBrand-secondary shrink-0"></i> <span>Everything in Insights</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary dark:text-darkBrand-secondary shrink-0"></i> <span>Guided AI Coaching Sessions</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary dark:text-darkBrand-secondary shrink-0"></i> <span>Full personalized drill library</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary dark:text-darkBrand-secondary shrink-0"></i> <span>Long-term trend tracking</span></li>
+                    </ul>
+                </div>
+
+                <!-- Mid Tier -->
+                <div class="bg-bg-card dark:bg-darkBg-card p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+                    <h3 class="font-display font-semibold text-2xl mb-2">Insights</h3>
+                    <p class="text-text-secondary dark:text-darkText-secondary text-sm h-10">For the data geek needing deeper analysis.</p>
+                    <div class="my-6">
+                        <span class="text-4xl font-bold">$9.99</span>
+                        <span class="text-text-secondary dark:text-darkText-secondary">/ month</span>
+                    </div>
+                    <a href="#" class="block w-full py-3 px-4 bg-gray-100 dark:bg-gray-800 text-center rounded-xl font-semibold text-text-primary dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors mb-8">Subscribe Now</a>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary shrink-0"></i> <span>Everything in Free</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary shrink-0"></i> <span>Unlimited detailed AI summaries</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="check" class="w-5 h-5 text-brand-secondary shrink-0"></i> <span class="font-medium text-brand-primary dark:text-darkBrand-primary">Hook: 1-2 Free "Coach Mode" trials</span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA (Action) -->
+    <section id="waitlist" class="py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-brand-primary dark:bg-darkBrand-primary z-0"></div>
+        <!-- Abstract wave background -->
+        <svg class="absolute bottom-0 w-full h-auto text-brand-secondary/20 dark:text-darkBg-primary/20" viewBox="0 0 1440 320" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,133.3C672,128,768,160,864,181.3C960,203,1056,213,1152,192C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+            <h2 class="font-display font-bold text-4xl md:text-6xl text-white dark:text-darkBg-primary mb-6">Stop wasting range balls.</h2>
+            <p class="text-xl text-white/80 dark:text-darkBg-card/80 mb-10">Join the waitlist today and lock in your founder's discount. Let your data actually do the work for you.</p>
+            
+            <!-- Waitlist Form Container -->
+            <div id="form-container">
+                <form id="waitlist-form" action="YOUR_ENDPOINT_URL_HERE" method="POST" class="flex flex-col sm:flex-row max-w-lg mx-auto gap-3">
+                    <input type="email" name="email" id="email-input" placeholder="Enter your email address" class="flex-1 px-6 py-4 rounded-full border-none focus:ring-4 focus:ring-brand-secondary/50 outline-none shadow-lg text-text-primary" required>
+                    <button type="submit" id="submit-btn" class="px-8 py-4 rounded-full bg-brand-secondary text-white font-semibold hover:bg-white hover:text-brand-primary transition-colors shadow-lg whitespace-nowrap flex items-center justify-center gap-2">
+                        <span>Join Waitlist</span>
+                    </button>
+                </form>
+                <p class="text-sm text-white/60 dark:text-darkBg-card/60 mt-4">Join 2,400+ golfers already on the list.</p>
+            </div>
+
+            <!-- Success Message (Hidden by default) -->
+            <div id="success-message" class="hidden max-w-lg mx-auto bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center">
+                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i data-lucide="check" class="text-white w-6 h-6"></i>
+                </div>
+                <h3 class="text-2xl font-display font-bold text-white mb-2">You're on the list!</h3>
+                <p class="text-white/80">Keep an eye on your inbox. We'll let you know as soon as spots open up.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-bg-primary dark:bg-darkBg-primary border-t border-black/5 dark:border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="relative w-8 h-8 flex items-center justify-center shadow-sm rounded-full bg-white">
+                    <img src="logo.png" alt="Fairway Golf Logo" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1A3623/E8EDDF?text=FG';">
+                </div>
+                <span class="font-display font-bold text-lg text-brand-primary dark:text-darkBrand-primary">Fairway Golf</span>
+            </div>
+            
+            <div class="flex gap-6 text-sm text-text-secondary dark:text-darkText-secondary">
+                <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Terms</a>
+                <a href="#" class="hover:text-brand-primary dark:hover:text-white transition-colors">Contact</a>
+            </div>
+            
+            <p class="text-sm text-text-secondary dark:text-darkText-secondary">&copy; 2026 Fairway Golf. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons & Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        // Change the icons inside the button based on previous settings
+        if (document.documentElement.classList.contains('dark')) {
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            // toggle icons inside button
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // if set via local storage previously
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            // if NOT set via local storage previously
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // Form Handling Logic
+        const form = document.getElementById('waitlist-form');
+        const formContainer = document.getElementById('form-container');
+        const successMessage = document.getElementById('success-message');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop page from reloading
+
+            const email = document.getElementById('email-input').value;
+            const endpoint = form.getAttribute('action');
+
+            // Visual feedback of loading
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Joining...';
+            lucide.createIcons();
+            submitBtn.disabled = true;
+
+            try {
+                // If you haven't put a real URL in yet, we'll just fake a success state for testing
+                if(endpoint === 'YOUR_ENDPOINT_URL_HERE' || endpoint === '') {
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Fake network delay
+                    throw new Error("No endpoint configured"); 
+                }
+
+                // Send data to your endpoint (Formspree, Mailchimp, etc)
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    showSuccess();
+                } else {
+                    alert("Oops! There was a problem submitting your form.");
+                }
+            } catch (error) {
+                // For demonstration purposes, if no endpoint is configured, we'll still show the success state 
+                // so you can see how the UI looks when testing!
+                console.log("Form submission simulated. Replace YOUR_ENDPOINT_URL_HERE with a real endpoint.");
+                showSuccess();
+            } finally {
+                // Reset button just in case
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        function showSuccess() {
+            formContainer.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+            // Re-initialize icons inside the newly revealed div
+            lucide.createIcons(); 
+        }
+    </script>
+</body>
+</html>
