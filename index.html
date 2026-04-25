@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GolfKoda | AI Golf Coach</title>
-    <!-- Google tag (gtag.js) -->
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <title>GolfKoda | AI Golf Coach & Garmin R10 Analytics App</title>
+    <meta name="description" content="Turn raw Garmin R10 data into actionable coaching. GolfKoda is the AI golf coach that explains your shots in plain English and provides real-time drills to fix your swing.">
+    <meta name="keywords" content="AI golf coach, Garmin R10 app, golf simulator coaching, launch monitor golf coach, golf swing analysis AI, real-time golf shot feedback">
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MC9TL7J8VE"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-MC9TL7J8VE');
     </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,32 +29,12 @@
             theme: {
                 extend: {
                     colors: {
-                        // Light Theme
-                        bg: {
-                            primary: '#E8EDDF',
-                            card: '#FFFFFF',
-                        },
-                        text: {
-                            primary: '#212121',
-                            secondary: '#757575',
-                        },
-                        brand: {
-                            primary: '#1A3623',
-                            secondary: '#3D8B40',
-                        },
-                        // Dark Theme
-                        darkBg: {
-                            primary: '#0D1B13',
-                            card: '#1A2C20',
-                        },
-                        darkText: {
-                            primary: '#E8EDDF',
-                            secondary: '#9EAEB4',
-                        },
-                        darkBrand: {
-                            primary: '#A3D9B1',
-                            secondary: '#59C85C',
-                        }
+                        bg: { primary: '#E8EDDF', card: '#FFFFFF' },
+                        text: { primary: '#212121', secondary: '#757575' },
+                        brand: { primary: '#1A3623', secondary: '#3D8B40' },
+                        darkBg: { primary: '#0D1B13', card: '#1A2C20' },
+                        darkText: { primary: '#E8EDDF', secondary: '#9EAEB4' },
+                        darkBrand: { primary: '#A3D9B1', secondary: '#59C85C' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -72,28 +57,15 @@
         .dark .hero-gradient {
             background: radial-gradient(circle at 50% 50%, rgba(89, 200, 92, 0.05) 0%, transparent 70%);
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.1);
-        }
     </style>
 </head>
 <body class="transition-theme bg-bg-primary dark:bg-darkBg-primary text-text-primary dark:text-darkText-primary font-sans">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 transition-theme bg-bg-primary/80 dark:bg-darkBg-primary/80 backdrop-blur-md border-b border-brand-primary/10 dark:border-darkBrand-primary/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-brand-primary dark:bg-darkBrand-primary rounded-xl flex items-center justify-center text-white">
-                        <i data-lucide="target"></i>
-                    </div>
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" alt="GolfKoda Logo" class="w-10 h-10 object-contain rounded-lg shadow-sm">
                     <span class="font-display text-2xl font-bold tracking-tight text-brand-primary dark:text-darkText-primary">GolfKoda</span>
                 </div>
                 
@@ -104,7 +76,7 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <button id="theme-toggle" class="p-2 rounded-full bg-white/50 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 transition-all text-text-primary dark:text-darkText-primary">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-white/50 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 transition-all text-text-primary dark:text-darkText-primary" aria-label="Toggle Dark Mode">
                         <i id="sun-icon" data-lucide="sun" class="hidden w-5 h-5"></i>
                         <i id="moon-icon" data-lucide="moon" class="w-5 h-5"></i>
                     </button>
@@ -114,238 +86,107 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden hero-gradient">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center lg:text-left">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <h1 class="font-display text-5xl lg:text-7xl font-extrabold text-brand-primary dark:text-darkText-primary leading-tight mb-6">
-                        Stop staring at numbers. <br/>
-                        <span class="text-brand-secondary dark:text-darkBrand-secondary italic">Start working with Koda.</span>
+                        The <span class="text-brand-secondary dark:text-darkBrand-secondary">AI Golf Coach</span> for your Garmin R10.
                     </h1>
                     <p class="text-xl text-text-secondary dark:text-darkText-secondary mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                        Meet Koda, the AI golf coach that speaks your language. Koda translates complex Garmin R10 data into clear, actionable coaching.
+                        Stop staring at raw numbers. GolfKoda translates 14+ launch monitor metrics into clear coaching like <span class="italic font-bold">"Hit the ball first"</span> so you can fix your swing in real-time.
                     </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button class="bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg">Start Coaching Now</button>
+                        <div class="flex items-center gap-3 px-4 py-2 bg-white/50 dark:bg-white/5 rounded-full border border-black/5 dark:border-white/10">
+                            <span class="text-xs font-bold opacity-60 uppercase tracking-widest">Optimized for</span>
+                            <span class="font-bold text-sm">Garmin R10</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Hero Mockup: Updated Koda Insights UI -->
-                <div class="relative">
-                    <!-- Background Shadow/Glow -->
-                    <div class="absolute inset-0 bg-brand-secondary/10 blur-3xl rounded-full"></div>
-                    
-                    <div class="relative bg-white/50 dark:bg-darkBg-card/50 p-3 rounded-[2.5rem] shadow-stripe dark:shadow-stripe-dark backdrop-blur-md border border-white dark:border-white/5">
-                        <div class="bg-white dark:bg-darkBg-primary rounded-[2rem] aspect-[4/5] overflow-hidden relative flex flex-col border border-black/5 dark:border-white/5">
-                            
-                            <!-- Internal App Header (Simplified) -->
-                            <div class="px-6 py-4 border-b border-black/5 dark:border-white/5 flex justify-between items-center bg-bg-primary/30 dark:bg-white/5">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full bg-brand-primary dark:bg-darkBrand-primary flex items-center justify-center text-white">
-                                        <i data-lucide="target" class="w-4 h-4"></i>
-                                    </div>
-                                    <p class="text-[10px] font-bold uppercase tracking-widest text-brand-primary dark:text-darkText-primary">Session Active</p>
-                                </div>
-                                <div class="flex gap-2 text-text-secondary">
-                                    <i data-lucide="history" class="w-4 h-4"></i>
-                                </div>
-                            </div>
-
-                            <!-- Dashboard Stats (Blurred/Background feel) -->
-                            <div class="grid grid-cols-4 gap-2 px-4 py-3 bg-black/5 dark:bg-black/20 opacity-30">
-                                <div class="text-center"><p class="text-[8px] uppercase">Smash</p><p class="text-xs font-bold">1.10</p></div>
-                                <div class="text-center"><p class="text-[8px] uppercase">Launch</p><p class="text-xs font-bold">24.7°</p></div>
-                                <div class="text-center"><p class="text-[8px] uppercase">Path</p><p class="text-xs font-bold">1.0°</p></div>
-                                <div class="text-center"><p class="text-[8px] uppercase">Spin</p><p class="text-xs font-bold">6890</p></div>
-                            </div>
-                            
-                            <!-- The Main Insight Modal Overlay -->
-                            <div class="absolute inset-0 z-10 p-6 flex items-center justify-center">
-                                <div class="w-full bg-white dark:bg-darkBg-card rounded-2xl shadow-2xl border border-black/5 dark:border-white/10 flex flex-col max-h-[85%] overflow-hidden">
-                                    <div class="p-4 border-b border-black/5 dark:border-white/5 flex justify-between items-center bg-white dark:bg-darkBg-card">
-                                        <h3 class="font-display font-bold text-sm text-brand-primary dark:text-darkText-primary flex items-center gap-2">
-                                            <i data-lucide="sparkles" class="w-4 h-4 text-brand-secondary"></i>
-                                            Koda Insights
-                                        </h3>
-                                        <i data-lucide="x" class="w-4 h-4 opacity-30"></i>
-                                    </div>
-                                    
-                                    <div class="p-5 overflow-y-auto custom-scrollbar text-left">
-                                        <!-- Section 1 -->
-                                        <div class="mb-6">
-                                            <h4 class="text-xs font-bold text-brand-secondary dark:text-darkBrand-secondary mb-2 uppercase tracking-wide">The Flight</h4>
-                                            <p class="text-[11px] leading-relaxed text-text-primary dark:text-darkText-primary">
-                                                This was a weak, high-launching push-fade that lacked authority, resulting in a short carry distance. The ball started significantly to the right of your target and leaked even further away due to poor contact.
-                                            </p>
-                                        </div>
-                                        
-                                        <!-- Section 2 -->
-                                        <div>
-                                            <h4 class="text-xs font-bold text-brand-secondary dark:text-darkBrand-secondary mb-2 uppercase tracking-wide">The Data Story</h4>
-                                            <p class="text-[11px] leading-relaxed text-text-primary dark:text-darkText-primary mb-3">
-                                                The primary issue here is an inefficient strike, evidenced by a very low <span class="font-bold underline decoration-brand-secondary/40">smash factor of 1.10</span>. Because you did not hit the center of the clubface, you lost significant ball speed.
-                                            </p>
-                                            <p class="text-[11px] leading-relaxed text-text-primary dark:text-darkText-primary">
-                                                Regarding your flight, the ball pushed to the right because your clubface was significantly open relative to your target line at impact. Focus on stabilizing your wrist position through impact.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-brand-secondary/10 blur-3xl rounded-full opacity-50"></div>
+                    <div class="relative bg-white/10 dark:bg-darkBg-card/50 p-2 rounded-[1.5rem] shadow-2xl backdrop-blur-sm border border-white/20 overflow-hidden transform group-hover:scale-[1.02] transition-transform duration-500">
+                        <img id="hero-dashboard" src="image_d19a7c.png" alt="GolfKoda App Dashboard" class="w-full h-auto rounded-xl shadow-stripe dark:shadow-stripe-dark">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 md:-right-10 bg-white dark:bg-darkBg-card p-4 rounded-2xl shadow-xl border border-black/5 dark:border-white/10 max-w-[200px] hidden md:block">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-brand-secondary"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-widest opacity-60">Koda Says</span>
                         </div>
+                        <p class="text-xs font-medium leading-relaxed">"Focus on hitting the ball first. You're hitting the ground too early."</p>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- How It Works (The Koda Loop) -->
     <section id="how-it-works" class="py-24 bg-white dark:bg-darkBg-card overflow-hidden relative border-y border-black/5 dark:border-white/5 shadow-sm transition-theme">
-        <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style="background-image: radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0); background-size: 32px 32px;"></div>
-        
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="text-center mb-16">
                 <span class="text-brand-secondary dark:text-darkBrand-secondary font-bold tracking-widest text-xs uppercase">The Methodology</span>
                 <h2 class="font-display font-bold text-4xl md:text-5xl mb-4 text-brand-primary dark:text-darkText-primary">The Koda Coaching Loop</h2>
-                <p class="text-text-secondary dark:text-darkText-secondary text-lg">Four steps to turn raw data into real-world results.</p>
+                <p class="text-text-secondary dark:text-darkText-secondary text-lg">Four steps to turn raw Garmin R10 data into lower scores.</p>
             </div>
-
             <div class="grid md:grid-cols-4 gap-8 relative">
-                <!-- Step 1 -->
                 <div class="relative z-10 flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 rounded-2xl bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe dark:shadow-stripe-dark group-hover:scale-110 transition-transform">1</div>
-                    <h4 class="font-bold text-xl mb-2 text-brand-primary dark:text-darkText-primary">Connect & Play</h4>
-                    <p class="text-text-secondary dark:text-darkText-secondary text-sm px-4">Connect your Garmin R10 and take 15-20 swings as you naturally do.</p>
+                    <div class="w-16 h-16 rounded-2xl bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe group-hover:scale-110 transition-transform">1</div>
+                    <h4 class="font-bold text-xl mb-2">Connect & Play</h4>
+                    <p class="text-text-secondary text-sm px-4">Sync your Garmin R10 and hit shots on a realistic simulator range.</p>
                 </div>
-
-                <!-- Step 2 -->
                 <div class="relative z-10 flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 rounded-2xl bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe dark:shadow-stripe-dark group-hover:scale-110 transition-transform">2</div>
-                    <h4 class="font-bold text-xl mb-2 text-brand-primary dark:text-darkText-primary">Koda Listens</h4>
-                    <p class="text-text-secondary dark:text-darkText-secondary text-sm px-4">Koda instantly translates 14+ metrics into a plain-English explanation of your shot.</p>
+                    <div class="w-16 h-16 rounded-2xl bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe group-hover:scale-110 transition-transform">2</div>
+                    <h4 class="font-bold text-xl mb-2">Real-Time Analysis</h4>
+                    <p class="text-text-secondary text-sm px-4">Koda analyzes smash, path, and face data to score every shot out of 100.</p>
                 </div>
-
-                <!-- Step 3 -->
                 <div class="relative z-10 flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 rounded-2xl bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe dark:shadow-stripe-dark group-hover:scale-110 transition-transform">3</div>
-                    <h4 class="font-bold text-xl mb-2 text-brand-primary dark:text-darkText-primary">The Solution</h4>
-                    <p class="text-text-secondary dark:text-darkText-secondary text-sm px-4">Receive a targeted drill or specific "feel" from Koda to fix your identified flaw.</p>
+                    <div class="w-16 h-16 rounded-2xl bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe group-hover:scale-110 transition-transform">3</div>
+                    <h4 class="font-bold text-xl mb-2">Plain English Fixes</h4>
+                    <p class="text-text-secondary text-sm px-4">Receive instant guidance on strike quality and face control in simple terms.</p>
                 </div>
-
-                <!-- Step 4 -->
                 <div class="relative z-10 flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 rounded-2xl bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe dark:shadow-stripe-dark group-hover:scale-110 transition-transform">4</div>
-                    <h4 class="font-bold text-xl mb-2 text-brand-primary dark:text-darkText-primary">Close the Loop</h4>
-                    <p class="text-text-secondary dark:text-darkText-secondary text-sm px-4">Hit more shots and watch Koda's feedback move your numbers in real-time.</p>
+                    <div class="w-16 h-16 rounded-2xl bg-brand-secondary dark:bg-darkBrand-secondary text-white dark:text-darkBg-primary flex items-center justify-center font-display font-bold text-2xl mb-8 shadow-stripe group-hover:scale-110 transition-transform">4</div>
+                    <h4 class="font-bold text-xl mb-2">Track Results</h4>
+                    <p class="text-text-secondary text-sm px-4">Review your session history to see your consistency and carry distance grow.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Comparison Table -->
-    <section class="py-24 transition-theme">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-display text-4xl font-extrabold text-center mb-16 italic text-brand-primary dark:text-darkText-primary">Why GolfKoda?</h2>
-            <div class="bg-white dark:bg-darkBg-card rounded-3xl overflow-hidden shadow-stripe dark:shadow-stripe-dark border border-black/5 dark:border-white/5">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="border-b border-brand-primary/5 dark:border-white/5 bg-brand-primary/5 dark:bg-white/5">
-                            <th class="p-6 text-xs font-bold uppercase tracking-widest opacity-50">Feature</th>
-                            <th class="p-6 text-xs font-bold uppercase tracking-widest opacity-50 text-center">Standard Apps</th>
-                            <th class="p-6 text-xs font-bold uppercase tracking-widest text-brand-secondary dark:text-darkBrand-secondary text-center">GolfKoda</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm">
-                        <tr class="border-b border-brand-primary/5 dark:border-white/5">
-                            <td class="p-6 font-medium">Raw Data Tracking</td>
-                            <td class="p-6 text-center">✅ Yes</td>
-                            <td class="p-6 font-bold text-center">✅ Yes</td>
-                        </tr>
-                        <tr class="border-b border-brand-primary/5 dark:border-white/5">
-                            <td class="p-6 font-medium">Plain-English Coaching</td>
-                            <td class="p-6 opacity-40 text-center">❌ No</td>
-                            <td class="p-6 font-bold text-brand-secondary dark:text-darkBrand-secondary text-center">✅ Koda "Explain My Shot"</td>
-                        </tr>
-                        <tr class="border-b border-brand-primary/5 dark:border-white/5">
-                            <td class="p-6 font-medium">Interactive AI Chat</td>
-                            <td class="p-6 opacity-40 text-center">❌ No</td>
-                            <td class="p-6 font-bold text-brand-secondary dark:text-darkBrand-secondary text-center">✅ Koda Session Chat</td>
-                        </tr>
-                        <tr class="border-b border-brand-primary/5 dark:border-white/5">
-                            <td class="p-6 font-medium">Explainable AI (XAI)</td>
-                            <td class="p-6 opacity-40 text-center">❌ No</td>
-                            <td class="p-6 font-bold text-brand-secondary dark:text-darkBrand-secondary text-center">✅ Transparent Logic</td>
-                        </tr>
-                        <tr>
-                            <td class="p-6 font-medium">Guided Drill Loops</td>
-                            <td class="p-6 opacity-40 text-center">❌ No</td>
-                            <td class="p-6 font-bold text-brand-secondary dark:text-darkBrand-secondary text-center">✅ Actionable Growth</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
     <section id="pricing" class="py-24 bg-bg-primary/50 dark:bg-darkBg-primary transition-theme">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="font-display text-4xl font-extrabold mb-4">Founder's Launch Pricing</h2>
-                <p class="text-text-secondary dark:text-darkText-secondary">Lock in early-bird rates for the life of your account.</p>
+                <p class="text-text-secondary dark:text-darkText-secondary">Unlock elite coaching features for your home simulator.</p>
             </div>
-            
             <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Tier 1 -->
-                <div class="bg-white dark:bg-darkBg-card p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-stripe flex flex-col transition-theme">
+                <div class="bg-white dark:bg-darkBg-card p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-stripe flex flex-col">
                     <h3 class="text-xl font-bold mb-2">The Range</h3>
                     <p class="text-3xl font-extrabold mb-6">$0 <span class="text-sm font-normal text-text-secondary">/ forever</span></p>
-                    <ul class="space-y-4 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm text-text-secondary dark:text-darkText-secondary">
-                            <i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Standard R10 Integration
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-text-secondary dark:text-darkText-secondary">
-                            <i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> 5 "Explain My Shot" / day
-                        </li>
+                    <ul class="space-y-4 mb-8 flex-1 text-sm text-text-secondary">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Standard R10 Integration</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> 5 Breakdowns / day</li>
                     </ul>
-                    <button class="w-full py-4 rounded-xl border-2 border-brand-primary/10 font-bold hover:bg-brand-primary/5 transition-colors">Get Started for Free</button>
+                    <button class="w-full py-4 rounded-xl border-2 border-brand-primary/10 font-bold hover:bg-brand-primary/5 transition-colors">Start Free</button>
                 </div>
-                
-                <!-- Tier 3 (Koda Coach) -->
-                <div class="bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary p-8 rounded-3xl shadow-stripe-hover relative lg:scale-110 lg:z-10 flex flex-col border border-brand-secondary/50 transition-theme">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-secondary text-[10px] font-bold py-1 px-4 rounded-full uppercase tracking-widest text-white">MOST POPULAR</div>
+                <div class="bg-brand-primary dark:bg-darkBrand-primary text-white dark:text-darkBg-primary p-8 rounded-3xl shadow-stripe-hover relative lg:scale-110 lg:z-10 flex flex-col border border-brand-secondary/50">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-secondary text-[10px] font-bold py-1 px-4 rounded-full uppercase tracking-widest text-white shadow-lg">FOUNDER'S SPECIAL</div>
                     <h3 class="text-xl font-bold mb-2">Koda Coach</h3>
                     <p class="text-3xl font-extrabold mb-6">$19.99 <span class="text-sm font-normal opacity-70">/ month</span></p>
-                    <ul class="space-y-4 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm">
-                            <i data-lucide="check" class="w-4 h-4 opacity-70"></i> <strong>Full Session Chat</strong> (Talk anytime)
-                        </li>
-                        <li class="flex items-center gap-2 text-sm">
-                            <i data-lucide="check" class="w-4 h-4 opacity-70"></i> Weekly Training Plans
-                        </li>
-                        <li class="flex items-center gap-2 text-sm">
-                            <i data-lucide="check" class="w-4 h-4 opacity-70"></i> Curated Drill Library
-                        </li>
-                        <li class="flex items-center gap-2 text-sm">
-                            <i data-lucide="check" class="w-4 h-4 opacity-70"></i> <strong>Founder's Badge</strong> (Price Locked)
-                        </li>
+                    <ul class="space-y-4 mb-8 flex-1 text-sm">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 opacity-70"></i> Full Session Chat</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 opacity-70"></i> <strong>Real-Time Performance Scoring</strong></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 opacity-70"></i> Founder's Badge (Price Locked)</li>
                     </ul>
-                    <button class="w-full py-4 rounded-xl bg-white dark:bg-darkBg-primary text-brand-primary dark:text-darkBrand-primary font-bold shadow-lg hover:translate-y-[-2px] transition-all">Start Coaching Now</button>
+                    <button class="w-full py-4 rounded-xl bg-white dark:bg-darkBg-primary text-brand-primary dark:text-darkBrand-primary font-bold shadow-lg hover:scale-105 transition-transform">Get Unlimited Coaching</button>
                 </div>
-
-                <!-- Tier 2 -->
-                <div class="bg-white dark:bg-darkBg-card p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-stripe flex flex-col transition-theme">
+                <div class="bg-white dark:bg-darkBg-card p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-stripe flex flex-col">
                     <h3 class="text-xl font-bold mb-2">The Insights</h3>
                     <p class="text-3xl font-extrabold mb-6">$9.99 <span class="text-sm font-normal text-text-secondary">/ month</span></p>
-                    <ul class="space-y-4 mb-8 flex-1">
-                        <li class="flex items-center gap-2 text-sm text-text-secondary dark:text-darkText-secondary">
-                            <i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Unlimited Breakdowns
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-text-secondary dark:text-darkText-secondary">
-                            <i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Full XAI Transparency
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-text-secondary dark:text-darkText-secondary">
-                            <i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Long-term Trend Tracking
-                        </li>
+                    <ul class="space-y-4 mb-8 flex-1 text-sm text-text-secondary">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Unlimited Breakdowns</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-secondary"></i> Long-term Trend Tracking</li>
                     </ul>
                     <button class="w-full py-4 rounded-xl border-2 border-brand-primary/10 font-bold hover:bg-brand-primary/5 transition-colors">Unlock Insights</button>
                 </div>
@@ -353,68 +194,46 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-20 bg-brand-primary text-white transition-theme">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-16">
-                <div class="col-span-2">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="w-8 h-8 bg-brand-secondary rounded flex items-center justify-center text-white">
-                            <i data-lucide="target" class="w-4 h-4"></i>
-                        </div>
-                        <span class="font-display text-xl font-bold tracking-tight">GolfKoda</span>
-                    </div>
-                    <h3 class="font-display text-3xl font-bold mb-6 italic">Practice with Purpose.</h3>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 uppercase text-[10px] tracking-widest opacity-50">Support</h4>
-                    <ul class="space-y-2 text-sm opacity-70">
-                        <li><a href="#" class="hover:text-brand-secondary transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-brand-secondary transition-colors">Garmin R10 Setup</a></li>
-                        <li><a href="#" class="hover:text-brand-secondary transition-colors">Compatible Hardware</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 uppercase text-[10px] tracking-widest opacity-50">Social</h4>
-                    <ul class="space-y-2 text-sm opacity-70">
-                        <li><a href="#" class="hover:text-brand-secondary transition-colors">Reddit Community</a></li>
-                        <li><a href="#" class="hover:text-brand-secondary transition-colors">Facebook Group</a></li>
-                        <li><a href="#" class="hover:text-brand-secondary transition-colors">Instagram</a></li>
-                    </ul>
-                </div>
+    <footer class="py-20 bg-brand-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex justify-center items-center gap-3 mb-6">
+                <img src="logo.png" alt="" class="w-8 h-8 object-contain">
+                <span class="font-display text-xl font-bold">GolfKoda</span>
             </div>
-            <div class="pt-8 border-t border-white/10 text-[10px] opacity-40 text-center md:text-left tracking-widest uppercase">
-                © 2026 GolfKoda AI. All Rights Reserved.
+            <p class="text-sm opacity-50 mb-8 max-w-sm mx-auto">Turning Garmin R10 data into actionable swing fixes.</p>
+            <div class="pt-8 border-t border-white/10 text-[10px] opacity-40 uppercase tracking-widest">
+                © 2026 GolfKoda AI. Practice with Purpose.
             </div>
         </div>
     </footer>
 
     <script>
-        // Initialize Lucide Icons
         lucide.createIcons();
-
         const themeToggle = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
+        const heroImg = document.getElementById('hero-dashboard');
         const html = document.documentElement;
 
-        function updateIcons() {
+        function updateIconsAndImage() {
             if (html.classList.contains('dark')) {
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
+                heroImg.src = 'app-dark.png'; // Dark mode image
             } else {
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
+                heroImg.src = 'app-light.png'; // Light mode image
             }
         }
-
+        
         themeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
-            updateIcons();
+            updateIconsAndImage();
         });
-
-        // Initialize icons
-        updateIcons();
+        
+        // Initial state sync
+        updateIconsAndImage();
     </script>
 </body>
 </html>
